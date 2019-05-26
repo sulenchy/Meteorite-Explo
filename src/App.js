@@ -10,6 +10,7 @@ class App extends Component {
         super(props);
         this.state = {
             item: [],
+            error: '',
             isLoading: false,
             value: ''
         }
@@ -24,23 +25,34 @@ class App extends Component {
 
     handleSearch = async (event) => {
         event.preventDefault();
-      this.props.isLoading();
-      console.log("value: ", process.env.REACT_APP_SEARCH_URL)
-      const data = await this.props.searchItem(this.state.value);
-      this.setState(prevState => ({
-        ...prevState,
-        item: [...data.item]
-      }));
-      this.props.isComplete();
+        this.props.isLoading();
+        const data = await this.props.searchItem(this.state.value);
+        data.type === 'SET_ITEM' ? 
+        this.setState(prevState => ({
+            ...prevState,
+            item: [...data.item],
+            error: ''
+        })) :
+        this.setState(prevState => ({
+            ...prevState,
+            error: [data.error]
+        })) 
+        this.props.isComplete();
     }
 
     async componentDidMount(){
       this.props.isLoading();
       const data = await this.props.fetchItem();
-      this.setState(prevState => ({
-        ...prevState,
-        item: [...data.item]
-      }));
+      data.type === 'SET_ITEM' ? 
+        this.setState(prevState => ({
+            ...prevState,
+            item: [...data.item],
+            error: ''
+        })) :
+        this.setState(prevState => ({
+            ...prevState,
+            error: [data.error]
+        })) 
       this.props.isComplete();
     }
 
@@ -75,6 +87,10 @@ class App extends Component {
                         </thead>
                         <tbody>
                             {
+                                this.state.error !== '' ? 
+                                <tr className="error-tr"><td>{`${this.state.error}.`}</td></tr> :
+                                item.length < 1 ?
+                                <tr className="error-tr"><td>{`Search term not found (status code: 400)`}</td></tr> :
                                 item.map((element, index) => {
                                     let year = element.year;
                                     return (
@@ -97,7 +113,7 @@ class App extends Component {
                     </table>
                 </div>
                 <div className="main-footer">
-                    <h3>pagination</h3>
+                    <h3>Pagination: work in progress</h3>
                 </div>
             </div>
         );
