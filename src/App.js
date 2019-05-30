@@ -61,10 +61,10 @@ class App extends Component {
         return (
             <div className="main-container">
                 <div className="main-header">
-                    <div className="title"><h1>Meteorite Explorer</h1></div>
+                    <div className="title"><h1>Find your meteorite landing info</h1></div>
                     <div className="main-form">
                         <form onSubmit={this.handleSearch}>
-                            <input type="text" value={this.state.value} onChange={this.handleChange} />
+                            <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="Search by name" />
                             <input type="submit" value="Search" />
                         </form>
                     </div>
@@ -73,7 +73,7 @@ class App extends Component {
                 <div className="table-container">
                     <table className="main-table">
                         <thead className="table-head">
-                            <tr>
+                            <tr className="tr-head">
                                 <td className="table-cell">Name</td>
                                 <td className="table-cell">Id</td>
                                 <td className="table-cell">Name Type</td>
@@ -95,15 +95,15 @@ class App extends Component {
                                     let year = element.year;
                                     return (
                                         <tr key={`tr- ${index}`}>
-                                            <td>{element.name}</td>
-                                            <td>{element.id}</td>
-                                            <td>{element.nametype}</td>
-                                            <td>{element.recclass}</td>
-                                            <td>{element.mass}</td>
-                                            <td>{element.fall}</td>
-                                            <td>{year ? year.slice(0, 4) : ''}</td>
-                                            <td>{element.reclat}</td>
-                                            <td>{element.reclong}</td>
+                                            <td className="table-cell">{element.name}</td>
+                                            <td className="table-cell">{element.id}</td>
+                                            <td className="table-cell">{element.nametype}</td>
+                                            <td className="table-cell">{element.recclass}</td>
+                                            <td className="table-cell">{element.mass}</td>
+                                            <td className="table-cell">{element.fall}</td>
+                                            <td className="table-cell">{year ? year.slice(0, 4) : ''}</td>
+                                            <td className="table-cell">{element.reclat}</td>
+                                            <td className="table-cell">{element.reclong}</td>
                                         </tr>
                                     )
                                 })
